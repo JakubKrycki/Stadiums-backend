@@ -1,0 +1,36 @@
+{
+  "name": "stadiums-backend",
+  "version": "1.0.0",
+  "description": "Stadium (Points of Interests)",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js ",
+    "lint": "./node_modules/.bin/eslint . --ext .js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakubKrycki/Stadiums-backend.git"
+  },
+  "author": "Jakub Krycki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakubKrycki/Stadiums-backend/issues"
+  },
+  "homepage": "https://github.com/JakubKrycki/Stadiums-backend#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.3.0",
+    "@hapi/vision": "^6.1.0",
+    "handlebars": "^4.7.7"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}
