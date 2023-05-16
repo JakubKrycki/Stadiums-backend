@@ -28,7 +28,8 @@
   "dependencies": {
     "@hapi/hapi": "^20.3.0",
     "@hapi/vision": "^6.1.0",
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "uuid": "^9.0.0"
   },
   "prettier": {
     "printWidth": 120
