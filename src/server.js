@@ -15,6 +15,9 @@ async function init() {
   });
   
   await server.register(Vision);
+  
+  server.validator(Joi);
+
   server.views({
     engines: {
       hbs: Handlebars,
