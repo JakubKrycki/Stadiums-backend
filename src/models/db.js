@@ -5,6 +5,5 @@ export const db = {
 
   init() {
    this.userStore = userMemStore;
-    this.playlistStore = playlistMemStore;
   },
 };
