@@ -2,10 +2,12 @@ import Hapi from "@hapi/hapi";
 import Vision from "@hapi/vision";
 import Handlebars from "handlebars";
 import dotenv from "dotenv";
+import Joi from "joi";
 import path from "path";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import { webRoutes } from "./web-routes.js";
+import { accountsController } from "./controllers/accounts-controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +49,7 @@ async function init() {
     redirectTo: "/",
     validate: accountsController.validate,
   });
-  
+
   server.auth.default("session");
   
   server.route(webRoutes);
