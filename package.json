@@ -21,6 +21,7 @@
   "homepage": "https://github.com/JakubKrycki/Stadiums-backend#readme",
   "devDependencies": {
     "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^8.40.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",

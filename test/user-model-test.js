@@ -1,6 +1,10 @@
-import { assert, expect } from "chai";
+import chai, { assert } from "chai";
+
+import chp from "chai-as-promised";
 import { db } from "../src/models/db.js";
 import { maggie, testUsers } from "./fixtures.js";
+
+chai.use(chp);
 
 suite("User API tests", () => {
 
@@ -15,6 +19,12 @@ suite("User API tests", () => {
         assert.deepEqual(maggie, newUser);
     });
 
+    test("create a user - failure - user with this email exists", async () => {
+        const newUser = await db.userStore.addUser(maggie);
+        assert.deepEqual(maggie, newUser);
+        assert.isRejected(db.userStore.addUser(maggie), Error, "User with this email already exists");
+    });
+
     test("get a user - success", async () => {
         const user = await db.userStore.addUser(maggie);
         const returnedUser1 = await db.userStore.getUserById(user._id);
@@ -23,7 +33,7 @@ suite("User API tests", () => {
         assert.deepEqual(user, returnedUser2);
     });
 
-    test("get a user - failures", async () => {
+    test("get a user - failure", async () => {
         const noUserWithId = await db.userStore.getUserById("123");
         assert.isNull(noUserWithId);
         const noUserWithEmail = await db.userStore.getUserByEmail("no@one.com");
@@ -51,7 +61,7 @@ suite("User API tests", () => {
         assert.isNull(deletedUser);
     });
     
-    test("delete One User - fail", async () => {
+    test("delete One User - failure - bad id", async () => {
         for (let i = 0; i < testUsers.length; i += 1) {
             // eslint-disable-next-line no-await-in-loop
             await db.userStore.addUser(testUsers[i]);
