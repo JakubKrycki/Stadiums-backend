@@ -8,6 +8,10 @@ export const userMemStore = {
   },
 
   async addUser(user) {
+    const dbUser = await this.getUserByEmail(user.email);
+    if ( dbUser !== null) {
+      throw new Error("User with this email already exists");
+    }
     user._id = v4();
     users.push(user);
     return user;
