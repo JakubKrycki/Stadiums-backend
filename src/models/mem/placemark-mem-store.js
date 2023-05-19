@@ -19,15 +19,15 @@ export const placemarkMemStore = {
         return (optionalPlacemark === undefined) ? null : optionalPlacemark;
     },
 
-    async getAllPlacemark() {
+    async getAllPlacemarks() {
         return placemarks;
     },
 
-    async getAllPlacemarkVisibleForUser(userId) {
+    async getAllPlacemarksVisibleForUser(userId) {
         return placemarks.filter((placemark) => placemark.added_by === userId || placemark.private === false);
     },
 
-    async getAllPlacemarkByUser(userId) {
+    async getAllPlacemarksByUser(userId) {
         return placemarks.filter((placemark) => placemark.added_by === userId);
     },
 

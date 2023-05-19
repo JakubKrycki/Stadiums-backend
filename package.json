@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "lint": "eslint . --ext .js",
+    "dev": "nodemon src/server.js --ignore 'src/models/json/*.json'",
     "test": "mocha --ui tdd test/**.js -exit"
   },
   "repository": {
