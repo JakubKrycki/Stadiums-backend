@@ -7,6 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import { webRoutes } from "./web-routes.js";
+import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -52,6 +53,7 @@ async function init() {
 
   server.auth.default("session");
   
+  db.init();
   server.route(webRoutes);
 
   await server.start();
