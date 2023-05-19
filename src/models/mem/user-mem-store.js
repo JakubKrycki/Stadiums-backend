@@ -15,18 +15,12 @@ export const userMemStore = {
 
   async getUserById(id) {
     const optionalUser = users.find((user) => user._id === id);
-    if (optionalUser === undefined) {
-      return null;
-    }
-    return optionalUser;
+    return (optionalUser === undefined) ? null : optionalUser;
   },
 
   async getUserByEmail(email) {
     const optionalUser = users.find((user) => user.email === email);
-    if (optionalUser === undefined) {
-      return null;
-    }
-    return optionalUser;
+    return (optionalUser === undefined) ? null : optionalUser;
   },
 
   async deleteUserById(id) {
