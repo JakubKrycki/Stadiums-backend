@@ -52,7 +52,7 @@ suite("User API tests", () => {
     test("delete One User - success", async () => {
         for (let i = 0; i < testUsers.length; i += 1) {
             // eslint-disable-next-line no-await-in-loop
-            testUsers[i] = await db.userStore.addUser(testUsers[i]);
+            await db.userStore.addUser(testUsers[i]);
         }
         await db.userStore.deleteUserById(testUsers[0]._id);
         const returnedUsers = await db.userStore.getAllUsers();
