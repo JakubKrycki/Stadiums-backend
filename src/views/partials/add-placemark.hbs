@@ -1,0 +1,36 @@
+<form action="/landpage/addplacemark" method="POST">
+  <div class="field">
+    <label class="label">Name</label>
+    <input class="input" type="text" placeholder="Enter stadium name" name="name">
+  </div>
+  <div class="field">
+    <label class="label">Club</label>
+    <input class="input" type="text" placeholder="Enter club of stadium" name="club">
+  </div>
+  <div class="field">
+    <label class="label">Longitude</label>
+    <input class="input" type="text" placeholder="Enter stadium longitude" name="longitude">
+  </div>
+  <div class="field">
+    <label class="label">Latitude</label>
+    <input class="input" type="text" placeholder="Enter stadium latitude" name="latitude">
+  </div>
+  <div class="field">
+    <label class="label">Country</label>
+    <input class="input" type="text" placeholder="Enter the country where the stadium is" name="category">
+  </div>
+  <div class="field">
+    <label class="label">Private</label>
+    <div class="control">
+        <label class="radio">
+            <input type="radio" name="private" value="true">
+            Yes
+        </label>
+        <label class="radio">
+            <input type="radio" name="private" value="false" checked>
+            No
+        </label>
+    </div>
+  </div>
+  <button class="button is-link">Add Stadium</button>
+</form>
