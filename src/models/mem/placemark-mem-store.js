@@ -24,7 +24,7 @@ export const placemarkMemStore = {
     },
 
     async getAllPlacemarksVisibleForUser(userId) {
-        return placemarks.filter((placemark) => placemark.added_by === userId || placemark.private === false);
+        return placemarks.filter((placemark) => this.isPlacemarkVisibleForUser(placemark, userId));
     },
 
     async getAllPlacemarksByUser(userId) {
@@ -32,7 +32,8 @@ export const placemarkMemStore = {
     },
 
     async getVisiblePlacemarksByCategory(userId, category) {
-        return this.getAllPlacemarkVisibleForUser(userId).filter((placemark) => placemark.category === category);
+        return this.getAllPlacemarksVisibleForUser(userId)
+            .then((returnedPlacemarks) => returnedPlacemarks.filter((placemark) => placemark.category === category));
     },
 
     async addPlacemark(placemark) {
@@ -45,7 +46,7 @@ export const placemarkMemStore = {
         return placemark;
     },
 
-    async deletePlacemark(id) {
+    async deletePlacemarkById(id) {
         const index = placemarks.findIndex((placemark) => placemark._id === id);
         if (index !== -1) {
             placemarks.splice(index, 1);
@@ -55,4 +56,8 @@ export const placemarkMemStore = {
     async deleteAllPlacemarks() {
         placemarks = [];
     },
+
+    isPlacemarkVisibleForUser(placemark, userId) {
+        return placemark.added_by === userId || !placemark.private;
+    }
 };
