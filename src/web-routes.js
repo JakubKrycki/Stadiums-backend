@@ -10,4 +10,6 @@ export const webRoutes = [
     { method: "POST", path: "/authenticate", config: accountsController.login },
 
     { method: "GET", path: "/landpage", config: landpageController.index },
+    { method: "POST", path: "/landpage/addplacemark", config: landpageController.addPlacemark },
+    { method: "GET", path: "/landpage/deleteplacemark/{id}", config: landpageController.deletePlacemark },
 ];
