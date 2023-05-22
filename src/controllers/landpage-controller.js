@@ -25,7 +25,11 @@ export const landpageController = {
           category: request.payload.category,
           private: request.payload.private,
         };
-        await db.placemarkStore.addPlacemark(newPlacemark);
+        try {
+          await db.placemarkStore.addPlacemark(newPlacemark);
+        } catch (error) {
+          console.error(error);
+        }
         return h.redirect("/landpage");
       },
     },
