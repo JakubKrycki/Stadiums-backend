@@ -5,8 +5,10 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js ",
-    "lint": "./node_modules/.bin/eslint . --ext .js"
+    "start": "node src/server.js",
+    "lint": "eslint . --ext .js",
+    "dev": "nodemon src/server.js --ignore 'src/models/json/*.json'",
+    "test": "mocha --ui tdd test/**.js -exit"
   },
   "repository": {
     "type": "git",
@@ -19,16 +21,23 @@
   },
   "homepage": "https://github.com/JakubKrycki/Stadiums-backend#readme",
   "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^8.40.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+    "mocha": "^10.2.0",
     "prettier": "^2.8.8"
   },
   "dependencies": {
+    "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "^20.3.0",
     "@hapi/vision": "^6.1.0",
-    "handlebars": "^4.7.7"
+    "dotenv": "^16.0.3",
+    "handlebars": "^4.7.7",
+    "joi": "^17.9.2",
+    "uuid": "^9.0.0"
   },
   "prettier": {
     "printWidth": 120
