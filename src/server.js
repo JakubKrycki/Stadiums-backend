@@ -64,6 +64,7 @@ async function init() {
   
   db.init("mongo");
   server.route(webRoutes);
+  server.route(apiRoutes);
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }
