@@ -1,10 +1,10 @@
-import { placemarkApi } from "./api/placemark-api";
-import { userApi } from "./api/user-api";
+import { placemarkApi } from "./api/placemark-api.js";
+import { userApi } from "./api/user-api.js";
 
 
 export const apiRoutes = [
     
-    { method: "GET", path: "/api/users/{id}", config: userApi.findOne },
+    { method: "GET", path: "/api/users/{id}", config: userApi.findById },
     { method: "GET", path: "/api/users", config: userApi.findAll },
     { method: "POST", path: "/api/users", config: userApi.create },
     { method: "DELETE", path: "/api/users/{id}", config: userApi.deleteById },

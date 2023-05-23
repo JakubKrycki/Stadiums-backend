@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import jwt from "hapi-auth-jwt2";
 import { webRoutes } from "./web-routes.js";
+import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
 import { validate } from "./api/jwt-utils.js";
