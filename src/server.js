@@ -1,4 +1,6 @@
+import Inert from "@hapi/inert";
 import Hapi from "@hapi/hapi";
+import HapiSwagger from "hapi-swagger";
 import Vision from "@hapi/vision";
 import Handlebars from "handlebars";
 import dotenv from "dotenv";
@@ -22,15 +24,40 @@ if (result.error) {
   process.exit(1);
 }
 
+const swaggerOptions = {
+  info: {
+    title: "Placemarks API",
+    version: "1.0"
+  },
+  securityDefinitions: {
+    jwt: {
+      type: "apiKey",
+      name: "Authorization",
+      in: "header"
+    }
+  },
+  security: [{ jwt: [] }]
+};
+
 async function init() {
   const server = Hapi.server({
     port: 3000,
     host: "localhost",
   });
-  
+
+  await server.register(Inert);
   await server.register(Vision);
   await server.register(Cookie);
   await server.register(jwt);
+
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions,
+    },
+  ]);
 
   server.validator(Joi);
 

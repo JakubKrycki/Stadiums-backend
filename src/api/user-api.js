@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { UserSpec, UserSpecPlus, IdSpec, UserArray, JwtAuth, UserCredentialsSpec } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
 
 export const userApi = {
@@ -19,6 +21,11 @@ export const userApi = {
         return Boom.serverUnavailable("No User with this id");
       }
     },
+    tags: ["api"],
+    description: "Get a specific user",
+    notes: "Returns user details",
+    validate: { params: { id: IdSpec }, failAction: validationError },
+    response: { schema: UserSpecPlus, failAction: validationError },
   },
   
   findAll: {
@@ -33,6 +40,10 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Get all userApi",
+    notes: "Returns details of all userApi",
+    response: { schema: UserArray, failAction: validationError },
   },
 
   create: {
@@ -48,6 +59,11 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Create a User",
+    notes: "Returns the newly created user",
+    validate: { payload: UserSpec, failAction: validationError },
+    response: { schema: UserSpecPlus, failAction: validationError },
   },
 
   deleteById: {
@@ -62,6 +78,9 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Delete user by id userApi",
+    notes: "By id userApi removed from Placemarks",
   },
 
   deleteAll: {
@@ -76,6 +95,9 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Delete all userApi",
+    notes: "All userApi removed from Placemarks",
   },
 
   authenticate: {
@@ -95,5 +117,10 @@ export const userApi = {
         return Boom.serverUnavailable("Database Error");
       }
     },
+    tags: ["api"],
+    description: "Authenticate  a User",
+    notes: "If user has valid email/password, create and return a JWT token",
+    validate: { payload: UserCredentialsSpec, failAction: validationError },
+    response: { schema: JwtAuth, failAction: validationError }
   },
 };

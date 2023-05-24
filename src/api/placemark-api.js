@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { IdSpec, PlacemarkSpec, PlacemarkSpecPlus, PlacemarkArraySpec } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const placemarkApi = {
     
@@ -18,6 +20,11 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("No placemark with this id");
             }
         },
+        tags: ["api"],
+        description: "Get a specific placemark",
+        notes: "Returns placemark details",
+        validate: { params: { id: IdSpec }, failAction: validationError },
+        response: { schema: PlacemarkSpecPlus, failAction: validationError },
     },
     
     findAll: {
@@ -32,6 +39,10 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Get all placemarkApi",
+        notes: "Returns details of all placemarkApi",
+        response: { schema: PlacemarkArraySpec, failAction: validationError },
     },
 
     create: {
@@ -49,6 +60,11 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Create a Placemark",
+        notes: "Returns the newly created placemark",
+        validate: { payload: PlacemarkSpec, failAction: validationError },
+        response: { schema: PlacemarkSpecPlus, failAction: validationError },
       },
     
       deleteById: {
@@ -63,6 +79,9 @@ export const placemarkApi = {
             return Boom.serverUnavailable("Database Error");
           }
         },
+        tags: ["api"],
+        description: "Delete placemark by id placemarkApi",
+        notes: "By id placemarkApi removed from Placemarks",
       },
     
       deleteAll: {
@@ -77,5 +96,8 @@ export const placemarkApi = {
             return Boom.serverUnavailable("Database Error");
           }
         },
+        tags: ["api"],
+        description: "Delete all placemarkApi",
+        notes: "All placemarkApi removed from Placemarks",
       },
 };
