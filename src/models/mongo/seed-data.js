@@ -13,7 +13,7 @@ export const seedData = {
       stamfordBridge: {
         name: "Stamford Bridge",
         team: "Chelsea London F.C.",
-        added_by: "1",
+        added_by: "->users.jakubKrycki",
         latitude: "1",
         longitude: "1",
         category: "England",

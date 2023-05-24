@@ -12,7 +12,7 @@ export const db = {
     switch (dbMode) {
       case "mongo":
         this.userStore = userMongoStore;
-        this.placemarkStore = placemarkMongoStore
+        this.placemarkStore = placemarkMongoStore;
         connectMongo();
         break;
       default:
