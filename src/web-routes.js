@@ -12,4 +12,6 @@ export const webRoutes = [
     { method: "GET", path: "/landpage", config: landpageController.index },
     { method: "POST", path: "/landpage/addplacemark", config: landpageController.addPlacemark },
     { method: "GET", path: "/landpage/deleteplacemark/{id}", config: landpageController.deletePlacemark },
+    
+    { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } }
 ];
