@@ -8,12 +8,9 @@ import Joi from "joi";
 import path from "path";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
-import jwt from "hapi-auth-jwt2";
 import { webRoutes } from "./web-routes.js";
-import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
-import { validate } from "./api/jwt-utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,16 +80,11 @@ async function init() {
     validate: accountsController.validate,
   });
 
-  server.auth.strategy("jwt", "jwt", {
-    key: process.env.cookie_password,
-    validate: validate,
-    verifyOptions: { algorithms: ["HS256"] }
-  });
   server.auth.default("session");
   
-  db.init("mongo");
+  db.init();
   server.route(webRoutes);
-  server.route(apiRoutes);
+
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }
