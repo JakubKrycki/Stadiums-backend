@@ -33,10 +33,16 @@
   "dependencies": {
     "@hapi/cookie": "^12.0.1",
     "@hapi/hapi": "^20.3.0",
+    "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^6.1.0",
     "dotenv": "^16.0.3",
     "handlebars": "^4.7.7",
+    "hapi-auth-jwt2": "^10.4.0",
+    "hapi-swagger": "^16.0.1",
     "joi": "^17.9.2",
+    "mongoose": "^7.2.0",
+    "mais-mongoose-seeder": "^1.0.7",
+    "jsonwebtoken": "^9.0.0",
     "uuid": "^9.0.0"
   },
   "prettier": {
