@@ -73,7 +73,7 @@ export const placemarkApi = {
         },
         handler: async function (request, h) {
           try {
-            await db.placemarkStore.deleteById(request.params.id);
+            await db.placemarkStore.deletePlacemarkById(request.params.id);
             return h.response().code(204);
           } catch (err) {
             return Boom.serverUnavailable("Database Error");
@@ -90,7 +90,7 @@ export const placemarkApi = {
         },
         handler: async function (request, h) {
           try {
-            await db.placemarkStore.deleteAll();
+            await db.placemarkStore.deleteAllPlacemarks();
             return h.response().code(204);
           } catch (err) {
             return Boom.serverUnavailable("Database Error");

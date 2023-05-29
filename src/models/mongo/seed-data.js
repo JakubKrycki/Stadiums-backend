@@ -1,11 +1,19 @@
 export const seedData = {
     users: {
       _model: "User",
-      jakubKrycki: {
+      jakubKryckiAdmin: {
         firstName: "Jakub",
         lastName: "Krycki",
         email: "jakub@krycki.pl",
-        password: "jk"
+        password: "jk",
+        role: "ADMIN",
+      },
+      kubaKrycki: {
+        firstName: "Jakub",
+        lastName: "Krycki",
+        email: "kuba@krycki.pl",
+        password: "jk",
+        role: "USER",
       }
     },
     placemarks: {
@@ -13,7 +21,7 @@ export const seedData = {
       stamfordBridge: {
         name: "Stamford Bridge",
         team: "Chelsea London F.C.",
-        added_by: "->users.jakubKrycki",
+        added_by: "->users.jakubKryckiAdmin",
         latitude: "1",
         longitude: "1",
         category: "England",

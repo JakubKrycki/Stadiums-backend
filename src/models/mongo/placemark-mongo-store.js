@@ -66,10 +66,10 @@ export const placemarkMongoStore = {
     },
 
     async deleteAllPlacemarks() {
-        await Placemark.deleteMane({});
+        await Placemark.deleteMany({});
     },
 
     async deleteAllUserPlacemarks(userId) {
-        await Placemark.deleteMane({added_by: userId});
+        await Placemark.deleteMany({added_by: userId});
     },
 }

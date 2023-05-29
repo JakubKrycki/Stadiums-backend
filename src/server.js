@@ -9,6 +9,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import jwt from "hapi-auth-jwt2";
+import hapiBasic from "hapi-auth-basic";
+import hapiAuthorization from "hapi-authorization";
 import { webRoutes } from "./web-routes.js";
 import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
@@ -39,6 +41,18 @@ const swaggerOptions = {
   security: [{ jwt: [] }]
 };
 
+const plugins = [
+  {
+      plugin: hapiBasic,
+  },
+  {
+      plugin: hapiAuthorization,
+      options: {
+        roles: false,
+      },
+  }
+];
+
 async function init() {
   const server = Hapi.server({
     port: 3000,
@@ -49,6 +63,7 @@ async function init() {
   await server.register(Vision);
   await server.register(Cookie);
   await server.register(jwt);
+  await server.register(plugins);
 
   await server.register([
     Inert,
