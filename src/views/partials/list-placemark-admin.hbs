@@ -1,0 +1,38 @@
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Club</th>
+      <th>Country</th>
+      <th>Is private</th>
+      <th>Added by</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each placemarks}}
+      <tr>
+        <td>
+          {{name}}
+        </td>
+        <td>
+          {{team}}
+        </td>
+        <td>
+          {{category}}
+        </td>
+        <td>
+          {{private}}
+        </td>
+        <td>
+          {{added_by}}
+        </td>
+        <td>
+          <a href="/landpage/deleteplacemark/{{_id}}" class="ui icon button">
+            <i class="fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
