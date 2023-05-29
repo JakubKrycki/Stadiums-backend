@@ -5,14 +5,20 @@ export const landpageController = {
       handler:
         async function (request, h) {
           const loggedInUser = request.auth.credentials;
-          const placemarks = await db.placemarkStore.getAllPlacemarksByUser(loggedInUser._id);
-          const viewData = {
-            user: loggedInUser,
-            placemarks: placemarks,
-          };
-          return h.view("landpage-view", viewData);
-        }
+          if (loggedInUser.role === "ADMIN") {
+            const viewData = {
+              user: loggedInUser,
+              placemarks: await db.placemarkStore.getAllPlacemarks(),
+            };
+            return h.view("landpage-view-admin", viewData);
+          } 
+            const viewData = {
+              user: loggedInUser,
+              placemarks: await db.placemarkStore.getAllPlacemarksByUser(loggedInUser._id),
+            };
+            return h.view("landpage-view", viewData);
       },
+    },
 
     addPlacemark: {
       handler:

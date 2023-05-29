@@ -1,0 +1,8 @@
+{{> welcome-menu}}
+
+<section class="section">
+  <p> Hi {{user.firstName}}! </p>
+  <p> Placemarks of all users in database: {{placemarks.length}}</p>
+  {{> list-placemark-admin}}
+  {{> add-placemark}}
+</section>

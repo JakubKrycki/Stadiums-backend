@@ -26,6 +26,15 @@ export const seedData = {
         longitude: "1",
         category: "England",
         private: true,
+      },
+      etihadStadium: {
+        name: "Etihad Stadium",
+        team: "Manchester City F.C.",
+        added_by: "->users.kubaKrycki",
+        latitude: "1",
+        longitude: "1",
+        category: "England",
+        private: true,
       }
     },
   };
