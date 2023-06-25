@@ -74,7 +74,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+#.env
 .env.test
 .env.production
 
@@ -91,7 +91,7 @@ out
 dist
 
 # Gatsby files
-.cache/
+.cache/secretpasswordnotrevealedtoanyone
 # Comment in the public line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
