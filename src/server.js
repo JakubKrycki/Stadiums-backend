@@ -9,6 +9,8 @@ import Joi from "joi";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import jwt from "hapi-auth-jwt2";
+import hapiBasic from "hapi-auth-basic";
+import hapiAuthorization from "hapi-authorization";
 import { webRoutes } from "./web-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
@@ -39,16 +41,30 @@ const swaggerOptions = {
   security: [{ jwt: [] }]
 };
 
+const plugins = [
+  {
+      plugin: hapiBasic,
+  },
+  {
+      plugin: hapiAuthorization,
+      options: {
+        roles: false,
+      },
+  }
+];
+
 async function init() {
   const server = Hapi.server({
     port: process.env.PORT || 3000,
   });
-  
+
+
   await server.register(Inert);
   await server.register(Vision);
   await server.register(Cookie);
   await server.register(jwt);
-  
+  await server.register(plugins);
+
   await server.register([
     Inert,
     Vision,
