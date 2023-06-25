@@ -3,18 +3,18 @@ import Hapi from "@hapi/hapi";
 import HapiSwagger from "hapi-swagger";
 import Vision from "@hapi/vision";
 import Handlebars from "handlebars";
+import path from "path";
 import dotenv from "dotenv";
 import Joi from "joi";
-import path from "path";
 import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import jwt from "hapi-auth-jwt2";
 import hapiBasic from "hapi-auth-basic";
 import hapiAuthorization from "hapi-authorization";
 import { webRoutes } from "./web-routes.js";
-import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
+import { apiRoutes } from "./api-routes.js";
 import { validate } from "./api/jwt-utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,8 +28,8 @@ if (result.error) {
 
 const swaggerOptions = {
   info: {
-    title: "Placemarks API",
-    version: "1.0"
+    title: "Playtime API",
+    version: "0.1"
   },
   securityDefinitions: {
     jwt: {
