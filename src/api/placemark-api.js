@@ -29,12 +29,35 @@ export const placemarkApi = {
     
     findAll: {
         auth: {
+          strategy: "jwt",
+        },
+        handler: async function (request, h) {
+          try {
+            const userInfo = decodeToken(request.payload.token);
+            if (userInfo.role === "ADMIN") {
+              const placemarks = await db.placemarkStore.getAllPlacemarks();
+              return placemarks;
+            } 
+            return [];
+          } catch (err) {
+            return Boom.serverUnavailable("Database Error");
+          }
+        },
+        tags: ["api"],
+        description: "Get all placemarkApi",
+        notes: "Returns details of all placemarkApi",
+        response: { schema: PlacemarkArraySpec, failAction: validationError },
+    },
+
+    findAllByUserId: {
+        auth: {
             strategy: "jwt",
         },
         handler: async function (request, h) {
             try {
-                const placemarks = await db.placemarkStore.getAllPlacemarks();
-                return placemarks;
+                const userId = request.params.id;
+                const placemarks = await db.placemarkStore.getAllPlacemarksByUser(userId);
+                return placemarks ?? [];
             } catch (err) {
                 return Boom.serverUnavailable("Database Error");
             }
@@ -53,7 +76,7 @@ export const placemarkApi = {
             try {
                 const placemark = await db.placemarkStore.addPlacemark(request.payload);
                 if (placemark) {
-                    return h.response(user).code(201);
+                    return h.response(placemark).code(201);
                 }
                 return Boom.badImplementation("error creating placemark");
             } catch (err) {
@@ -66,6 +89,28 @@ export const placemarkApi = {
         validate: { payload: PlacemarkSpec, failAction: validationError },
         response: { schema: PlacemarkSpecPlus, failAction: validationError },
       },
+
+      update: {
+          auth: {
+              strategy: "jwt",
+          },
+          handler: async function (request, h) {
+              try {
+                  const placemark = await db.placemarkStore.updatePlacemark(request.payload);
+                  if (placemark) {
+                      return h.response(placemark).code(200);
+                  }
+                  return Boom.badImplementation("error creating placemark");
+              } catch (err) {
+                  return Boom.serverUnavailable("Database Error");
+              }
+          },
+          tags: ["api"],
+          description: "Update a Placemark",
+          notes: "Returns the updated placemark",
+          validate: { payload: PlacemarkSpecPlus, failAction: validationError },
+          response: { schema: PlacemarkSpecPlus, failAction: validationError },
+        },
     
       deleteById: {
         auth: {
