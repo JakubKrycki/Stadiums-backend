@@ -47,23 +47,13 @@ export const placemarkMongoStore = {
     },
 
     async addPlacemark(placemark) {
-        const dbPlacemark = await this.getPlacemarkByNameAndUser(placemark.name, placemark.added_by);
+        const dbPlacemark = await getPlacemarkByNameAndUser(placemark.name, placemark.added_by);
         if (dbPlacemark !== null) {
             throw new Error("Placemark with this name already exists");
         }
         const newPlacemark = new Placemark(placemark);
         const placemarkObj = await newPlacemark.save();
         const p = await this.getPlacemarkById(placemarkObj._id);
-        return p;
-    },
-
-    async updatePlacemark(placemark) {
-        const dbPlacemark = await this.getPlacemarkById(placemark._id);
-        if (dbPlacemark === null) {
-            throw new Error("Placemark with this name doesn't exist");
-        }
-        await Placemark.updateOne(placemark);
-        const p = await this.getPlacemarkById(dbPlacemark._id);
         return p;
     },
 
