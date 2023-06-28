@@ -34,8 +34,8 @@ export const PlacemarkSpec = Joi.object()
   name: Joi.string().required(),
   team: Joi.string().required(),
   added_by: IdSpec,
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
   category: Joi.string().required(),
   private: Joi.boolean().required(),
 }).label("Placemark");
@@ -46,8 +46,8 @@ export const PlacemarkReadableSpec = Joi.object()
   team: Joi.string().required(),
   added_by: IdSpec,
   added_by_username: Joi.string().required(),
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
   category: Joi.string().required(),
   private: Joi.boolean().required(),
 }).label("Placemark");
