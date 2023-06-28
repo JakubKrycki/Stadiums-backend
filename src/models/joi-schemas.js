@@ -40,9 +40,27 @@ export const PlacemarkSpec = Joi.object()
   private: Joi.boolean().required(),
 }).label("Placemark");
 
+export const PlacemarkReadableSpec = Joi.object()
+.keys({
+  name: Joi.string().required(),
+  team: Joi.string().required(),
+  added_by: IdSpec,
+  added_by_username: Joi.string().required(),
+  latitude: Joi.string().required(),
+  longitude: Joi.string().required(),
+  category: Joi.string().required(),
+  private: Joi.boolean().required(),
+}).label("Placemark");
+
 export const PlacemarkSpecPlus = PlacemarkSpec.keys({
   _id: IdSpec,
   __v: Joi.number(),
 }).label("PlacemarkPlus");
 
-export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");
+export const PlacemarkReadableSpecPlus = PlacemarkReadableSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("PlacemarkReadablePlus");
+
+
+export const PlacemarkArraySpec = Joi.array().items(PlacemarkReadableSpecPlus).label("PlacemarkArray");
