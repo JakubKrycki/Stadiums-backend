@@ -33,7 +33,7 @@ export const PlacemarkSpec = Joi.object()
 .keys({
   name: Joi.string().required(),
   team: Joi.string().required(),
-  added_by: Joi.string().required(),
+  added_by: IdSpec,
   latitude: Joi.string().required(),
   longitude: Joi.string().required(),
   category: Joi.string().required(),
