@@ -49,6 +49,25 @@ export const placemarkApi = {
         response: { schema: PlacemarkArraySpec, failAction: validationError },
     },
 
+    findAllAvailableForUser: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            try {
+                const userId = request.params.id;
+                const placemarks = await db.placemarkStore.getAllPlacemarksVisibleForUser(userId);
+                return placemarks ?? [];
+            } catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+        tags: ["api"],
+        description: "Get all placemarkApi",
+        notes: "Returns details of all visible for user placemarkApi",
+        response: { schema: PlacemarkArraySpec, failAction: validationError },
+    },
+
     findAllByUserId: {
         auth: {
             strategy: "jwt",
