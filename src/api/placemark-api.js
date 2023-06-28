@@ -96,9 +96,9 @@ export const placemarkApi = {
           },
           handler: async function (request, h) {
               try {
-                  const placemark = await db.placemarkStore.updatePlacemark(request.payload);
+                  const placemark = await db.placemarkStore.updatePlacemark(request.params.id, request.payload);
                   if (placemark) {
-                      return h.response(placemark).code(200);
+                    return h.response(placemark).code(200);
                   }
                   return Boom.badImplementation("error creating placemark");
               } catch (err) {
