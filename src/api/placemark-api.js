@@ -2,6 +2,7 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { IdSpec, PlacemarkSpec, PlacemarkSpecPlus, PlacemarkArraySpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
+import { decodeToken } from "./jwt-utils.js";
 
 export const placemarkApi = {
     
@@ -33,7 +34,8 @@ export const placemarkApi = {
         },
         handler: async function (request, h) {
           try {
-            const userInfo = decodeToken(request.payload.token);
+            const token = request.headers.authorization.split(" ")[1];
+            const userInfo = decodeToken(token);
             if (userInfo.role === "ADMIN") {
               const placemarks = await db.placemarkStore.getAllPlacemarks();
               return placemarks;

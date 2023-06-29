@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { UserSpec, UserSpecPlus, IdSpec, UserArray, JwtAuth, UserCredentialsSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
-import { createToken } from "./jwt-utils.js";
+import { createToken, decodeToken } from "./jwt-utils.js";
 
 export const userApi = {
   
@@ -34,8 +34,13 @@ export const userApi = {
     },
     handler: async function (request, h) {
       try {
-        const users = await db.userStore.getAllUsers();
-        return users;
+        const token = request.headers.authorization.split(" ")[1];
+        const userInfo = decodeToken(token);
+        if (userInfo.role === "ADMIN") {
+          const users = await db.userStore.getAllUsers();
+          return users;
+        } 
+        return [];
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
@@ -72,8 +77,14 @@ export const userApi = {
     },
     handler: async function (request, h) {
       try {
-        await db.userStore.deleteById(request.params.id);
-        return h.response().code(204);
+        const token = request.headers.authorization.split(" ")[1];
+        const userInfo = decodeToken(token);
+        console.log(userInfo);
+        if (userInfo.role === "ADMIN") {
+          await db.userStore.deleteUserById(request.params.id);
+          return h.response().code(204);
+        } 
+        return h.response().code(500);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
@@ -89,8 +100,13 @@ export const userApi = {
     },
     handler: async function (request, h) {
       try {
-        await db.userStore.deleteAll();
-        return h.response().code(204);
+        const token = request.headers.authorization.split(" ")[1];
+        const userInfo = decodeToken(token);
+        if (userInfo.role === "ADMIN") {
+          await db.userStore.deleteAll();
+          return h.response().code(204);
+        } 
+        return h.response().code(500);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
