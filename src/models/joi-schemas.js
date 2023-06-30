@@ -62,5 +62,17 @@ export const PlacemarkReadableSpecPlus = PlacemarkReadableSpec.keys({
   __v: Joi.number(),
 }).label("PlacemarkReadablePlus");
 
-
 export const PlacemarkArraySpec = Joi.array().items(PlacemarkReadableSpecPlus).label("PlacemarkArray");
+
+export const ImageSpec = Joi.object()
+.keys({
+ placemark_id: IdSpec,
+ image_url: Joi.string().required(),
+}).label("Image");
+
+export const ImageSpecPlus = ImageSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("ImagePlus");
+
+export const ImageArraySpec = Joi.array().items(ImageSpecPlus).label("ImageArray");
