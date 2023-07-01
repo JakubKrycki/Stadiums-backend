@@ -28,8 +28,8 @@ if (result.error) {
 
 const swaggerOptions = {
   info: {
-    title: "Playtime API",
-    version: "0.1"
+    title: "Stadiums API",
+    version: "2.0"
   },
   securityDefinitions: {
     jwt: {
@@ -56,7 +56,7 @@ const plugins = [
 async function init() {
   const server = Hapi.server({
     port: process.env.PORT || 3000,
-    routes: { cors: true },
+    routes: { cors: { origin: ["*"]} },
   });
 
 

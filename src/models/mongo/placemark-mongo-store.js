@@ -1,4 +1,5 @@
 import { Placemark } from "./placemark.js";
+import { userMongoStore } from "./user-mongo-store.js";
 
 export const placemarkMongoStore = {
     
@@ -28,22 +29,27 @@ export const placemarkMongoStore = {
 
     async getAllPlacemarks() {
         const placemarks = await Placemark.find().lean();
-        return placemarks;
+        const readablePlacemarks = await this.mapToReadable(placemarks);
+        return readablePlacemarks;
     },
     
     async getAllPlacemarksVisibleForUser(userId) {
-        const placemarks = await Placemark.find({added_by: userId, private: false}).lean();
-        return placemarks;
+        const placemarks = await Placemark.find({private: false}).lean();
+        const privateUserPlacemarks = await Placemark.find({added_by: userId, private: true}).lean();
+        const readablePlacemarks = await this.mapToReadable(placemarks.concat(privateUserPlacemarks));
+        return readablePlacemarks;
     },
 
     async getAllPlacemarksByUser(userId) {
         const placemarks = await Placemark.find({added_by: userId}).lean();
-        return placemarks;
+        const readablePlacemarks = await this.mapToReadable(placemarks);
+        return readablePlacemarks;
     },
 
     async getVisiblePlacemarksByCategory(userId, category) {
         const placemarks = await Placemark.find({added_by: userId, private: false, category: category}).lean();
-        return placemarks;
+        const readablePlacemarks = await this.mapToReadable(placemarks);
+        return readablePlacemarks;
     },
 
     async addPlacemark(placemark) {
@@ -81,4 +87,13 @@ export const placemarkMongoStore = {
     async deleteAllUserPlacemarks(userId) {
         await Placemark.deleteMany({added_by: userId});
     },
+
+    async mapToReadable(placemarks) {
+        const readablePlacemarks = await Promise.all(placemarks.map(async (placemark) => {
+            const user = await userMongoStore.getUserById(placemark.added_by);
+            placemark.added_by_username = `${user.firstName} ${user.lastName}`;
+            return placemark;
+        }));
+        return readablePlacemarks;
+    }
 }

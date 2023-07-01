@@ -34,8 +34,20 @@ export const PlacemarkSpec = Joi.object()
   name: Joi.string().required(),
   team: Joi.string().required(),
   added_by: IdSpec,
-  latitude: Joi.string().required(),
-  longitude: Joi.string().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
+  category: Joi.string().required(),
+  private: Joi.boolean().required(),
+}).label("Placemark");
+
+export const PlacemarkReadableSpec = Joi.object()
+.keys({
+  name: Joi.string().required(),
+  team: Joi.string().required(),
+  added_by: IdSpec,
+  added_by_username: Joi.string().required(),
+  latitude: Joi.number().required(),
+  longitude: Joi.number().required(),
   category: Joi.string().required(),
   private: Joi.boolean().required(),
 }).label("Placemark");
@@ -45,4 +57,22 @@ export const PlacemarkSpecPlus = PlacemarkSpec.keys({
   __v: Joi.number(),
 }).label("PlacemarkPlus");
 
-export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");
+export const PlacemarkReadableSpecPlus = PlacemarkReadableSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("PlacemarkReadablePlus");
+
+export const PlacemarkArraySpec = Joi.array().items(PlacemarkReadableSpecPlus).label("PlacemarkArray");
+
+export const ImageSpec = Joi.object()
+.keys({
+ placemark_id: IdSpec,
+ image_url: Joi.string().required(),
+}).label("Image");
+
+export const ImageSpecPlus = ImageSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("ImagePlus");
+
+export const ImageArraySpec = Joi.array().items(ImageSpecPlus).label("ImageArray");

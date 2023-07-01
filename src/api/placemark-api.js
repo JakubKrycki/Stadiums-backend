@@ -1,7 +1,9 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { IdSpec, PlacemarkSpec, PlacemarkSpecPlus, PlacemarkArraySpec } from "../models/joi-schemas.js";
+import { IdSpec, PlacemarkSpec, PlacemarkSpecPlus, PlacemarkArraySpec, ImageArraySpec, ImageSpecPlus } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
+import { decodeToken } from "./jwt-utils.js";
+import { imageStore } from "../models/image-store.js";
 
 export const placemarkApi = {
     
@@ -26,6 +28,25 @@ export const placemarkApi = {
         validate: { params: { id: IdSpec }, failAction: validationError },
         response: { schema: PlacemarkSpecPlus, failAction: validationError },
     },
+
+    findImagesById: {
+      auth: {
+          strategy: "jwt",
+      },
+      handler: async function (request, h) {
+          try {
+              const images = await db.imageStore.getImagesByPlacemarkId(request.params.id);
+              return images ?? [];
+          } catch (err) {
+              return Boom.serverUnavailable("No image with this placemark id");
+          }
+      },
+      tags: ["api"],
+      description: "Get images for placemark",
+      notes: "Returns images urls",
+      validate: { params: { id: IdSpec }, failAction: validationError },
+      response: { schema: ImageArraySpec, failAction: validationError },
+  },
     
     findAll: {
         auth: {
@@ -33,7 +54,8 @@ export const placemarkApi = {
         },
         handler: async function (request, h) {
           try {
-            const userInfo = decodeToken(request.payload.token);
+            const token = request.headers.authorization.split(" ")[1];
+            const userInfo = decodeToken(token);
             if (userInfo.role === "ADMIN") {
               const placemarks = await db.placemarkStore.getAllPlacemarks();
               return placemarks;
@@ -46,6 +68,25 @@ export const placemarkApi = {
         tags: ["api"],
         description: "Get all placemarkApi",
         notes: "Returns details of all placemarkApi",
+        response: { schema: PlacemarkArraySpec, failAction: validationError },
+    },
+
+    findAllAvailableForUser: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            try {
+                const userId = request.params.id;
+                const placemarks = await db.placemarkStore.getAllPlacemarksVisibleForUser(userId);
+                return placemarks ?? [];
+            } catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+        tags: ["api"],
+        description: "Get all placemarkApi",
+        notes: "Returns details of all visible for user placemarkApi",
         response: { schema: PlacemarkArraySpec, failAction: validationError },
     },
 
@@ -88,6 +129,28 @@ export const placemarkApi = {
         notes: "Returns the newly created placemark",
         validate: { payload: PlacemarkSpec, failAction: validationError },
         response: { schema: PlacemarkSpecPlus, failAction: validationError },
+      },
+
+      uploadImage: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            try {
+                const newImage = {
+                  placemark_id: request.params.id,
+                  image_url: request.payload.image_url,
+                }
+                const image = await db.imageStore.uploadImage(newImage);
+                return h.response(image).code(200);
+            } catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+        tags: ["api"],
+        description: "Add an image",
+        notes: "Returns the newly added image",
+        response: { schema: ImageSpecPlus, failAction: validationError },
       },
 
       update: {
@@ -144,5 +207,25 @@ export const placemarkApi = {
         tags: ["api"],
         description: "Delete all placemarkApi",
         notes: "All placemarkApi removed from Placemarks",
+      },
+
+      deleteImageById: {
+        auth: {
+          strategy: "jwt",
+        },
+        handler: async function (request, h) {
+          try {
+            const image = await db.imageStore.getImageById(request.params.image_id);
+            const imageName = image.image_url.split("/")[7].split(".")[0];
+            await db.imageStore.deleteImageById(request.params.image_id);
+            await imageStore.deleteImage(imageName);
+            return h.response().code(204);
+          } catch (err) {
+            return Boom.serverUnavailable("Database Error");
+          }
+        },
+        tags: ["api"],
+        description: "Delete image from placemark by id placemarkApi",
+        notes: "By id placemarkApi removed from Images",
       },
 };
